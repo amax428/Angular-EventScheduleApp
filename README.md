@@ -1,6 +1,9 @@
+
 # Follow
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.3.
+
+Here is the demo: ![] (https://user-images.githubusercontent.com/43168607/47549021-f78c0980-d924-11e8-911f-b0ce9ea95f25.gif)
 
 ## Development server
 
