@@ -1,0 +1,31 @@
+
+//console.log(this.allEvents[i].location.trim(),this.location_name,'a');
+            // this.isPlaceDetail = true;
+            // this.isPlaceEvent = true;
+            if(this.allEvents[i].location.trim()==this.location_name.trim()){
+                console.log(this.allEvents[i].location.trim(),this.location_name,'a');
+                this.isPlaceDetail = true;
+                this.isPlaceEvent = true;
+                this.allEvents[i].isDetails = !isDetails;
+            }   
+            if(type=='category' || type=='date'){
+                this.allEvents[i].isDetails = !isDetails;
+            }else{
+                if(start>0 || end<24){
+                    this.allEvents[i].isDetails = !isDetails;
+                    this.allEvents[i].showWindow=true;
+                }else{
+                    //this.allEvents[i].showWindow=false;
+                    //this.allEvents[i].isDetails = isDetails;
+                }
+            }
+
+            if(cat == ''){
+                if((start <= this.allEvents[i].startTime && end >= this.allEvents[i].startTime) && date == this.allEvents[i].Date){
+                    evt.push(this.allEvents[i]);
+                }
+            }else{
+                if((cat.trim() == this.allEvents[i].category) && date == this.allEvents[i].Date && (start <= this.allEvents[i].startTime && end >= this.allEvents[i].startTime)){
+                    evt.push(this.allEvents[i]);
+                }
+            }

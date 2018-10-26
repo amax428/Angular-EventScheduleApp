@@ -1,0 +1,155 @@
+<!----main-Page-End----->
+<div class="main_top_sec">
+	<div class="main_sec">
+		<div class="searchBar">
+			<div class="searchBar-inner">
+				<input type="text" placeholder="search for location" [value]="searchText" (focus)="clearText()" autocorrect="off"
+				 autocapitalize="off" spellcheck="off" #search [formControl]="searchControl" />
+				<button class="toggleMenuBtn" type="submit" (click)="toggleMenuBtn()" data-target="#catMenu">
+					<img class="hide-img" src="./assets/img/icon-white.jpg">
+					<img class="open-img" src="./assets/img/icon-grey.jpg">
+				</button>
+			</div>
+			<div class="calender-bar">
+				<div class="calender-top-bar">
+					<div class="calender-fiels">
+						<span class="calToggleMenuBtn">
+							<input class="btnmy" type="text" #dateField onchange="DateChange(this)" id="datepicker" >
+							<input type="text" class="hide" (click)="DateChange($event)" id="dateText" />
+						</span>
+						<div class="calender-range">
+							<!---------Range html------------>
+							<div>
+								<span  style="" class="start-range"></span>
+								<span style="" class="end-range"></span>
+							</div>
+							<input data-addui='slider' data-formatter='usd' data-min='0' data-max='24.00' data-step='.5' data-range='true'
+							 value="0,24" />
+							<input type="text" class="hide" (click)="TimeChanged($event)" id="dateTimeText" />
+						</div>
+					</div>
+				</div>
+				<div id="calenderMenu" class="collapse calender-inner">
+
+				</div>
+			</div>
+			<div class="place-detail">
+				<div class="palce-serach" style="min-height: 150px;opacity: 0.3px;border-bottom: solid 1px #ddd">search
+					<span style="float: right;padding: 2%"><i class="fa fa-close" style=""></i></span>
+				</div>
+				<div class="palce-img-desc" style="display: flex;color: white">
+					<div class="" style="width: 50%">
+						<img class="open-img" src="./assets/img/guj.jpg" width="100%" height="100%">
+					</div>
+					<div class="" style="background-color: #037eff;width: 50%;padding: 5px;">
+						<div class="place-title" style="font-size: 36px;">Gujarat</div>
+						<p class="palce-detail" style="font-size: 16px;">asasd asdadasd
+						asdasd asdasd asdasdsad asdasd asdsad asdsa asdasd asda sd</p>
+						<div class="place-url" style="">
+							<span style="float: left;padding-left:10%;"><i class="fa fa-share-square" style="font-size: 50px;"></i></span>
+							<span style="float: right;padding-right:10%;"><i class="fa fa-globe" style="font-size: 50px;"></i></span>
+						</div>
+					</div>
+				</div>
+				<div class="palce-event" style="font-size: 22px;width: 100%;padding: 10px">
+					<ul style="display: grid;">
+						<li style="border-bottom: solid 1px #ddd">
+							<span style="float: left;padding: 5px">11.00</span>
+							<span style="float: left;padding: 5px;text-align: center;">Test event</span>
+							<span style="float: right;padding: 5px">...</span>
+							<div style="display: inline-block;">assadsad sdsad asdasd asd asd</div>
+						</li>
+						<li>
+							<span style="float: left;padding: 5px">11.00</span>
+							<span style="float: left;padding: 5px;text-align: center;">Test event</span>
+							<span style="float: right;padding: 5px">...</span>
+							<div style="display: inline-block;">assadsad sdsad asdasd asd asd</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="catMenu" [ngClass]="calculateClasses()">
+			<div class="col-md-4 col-sm-4 col-xs-4 social_icon noborder mouse-pointer" (click)="CategoryChange('Category 1')">
+				<i class="fa fa-bank"></i>
+				<span class="cat-title">Category 1</span>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-4 social_icon noborder mouse-pointer" (click)="CategoryChange('Category 2')">
+				<i class="fa fa-handshake-o"></i>
+				<span class="cat-title">Category 2</span>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-4 social_icon noborder mouse-pointer" (click)="CategoryChange('Category 3')">
+				<i class="fa fa-bank"></i>
+				<span class="cat-title">Category 3</span>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-4 social_icon noborder mouse-pointer" (click)="CategoryChange('')">
+				<i class="fa fa-globe"></i>
+				<span class="cat-title">All</span>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="map-section">
+		<agm-map  
+			[latitude]="latitude" 
+			[longitude]="longitude" 
+			(click)="bodyFocus()" 
+			[styles]="'border: 2px solid;border-color: #2d94ff;'" 
+			[scrollwheel]="true" 
+			[zoom]="5">
+			<agm-marker 
+				*ngFor="let evt of events" 
+				[latitude]="evt.latitude" 
+				[longitude]="evt.longitude" 
+				[label]="{'color': '#64bbff','fontSize': '25px','fontWeight': '800','text': evt.location}" 
+				[iconUrl]="'./assets/img/bg.png'" 
+				[visible]="evt.showWindow">
+				<agm-snazzy-info-window 
+					[maxWidth]="auto" 
+					[maxHeight]="auto" 
+					[borderRadius]="'1%'" 
+					[border]="{'width':'2','color':'#64bbff'}" 
+					[closeOnMapClick]="false" 
+					[isOpen]="evt.showWindow" class="main-marker">
+					<ng-template>
+				       	<div [hidden]="evt.isDetails" class="social_icon active plus-event" style="">
+							<i class="fa fa-plus" (click)="showHideDetails(evt)" style=""></i>
+						</div>
+						<ng-container *ngFor="let evtD of evt.eventDetail; let i = index;">
+							<div class="content-space3 text-center width-100" [hidden]="!evt.isDetails" [ngClass]="i >= 3 ? 'divheight':''" >
+								<!-- <p class="category-name"><i>{{evt.category}}</i></p><br> -->
+								<p>
+									<span class="content-space2">{{evtD.TimeFrom}} to {{evtD.TimeTo}} </span>
+									<span class="content-space1">{{evtD.name}}</span>
+								</p>
+								<span class="minimize" *ngIf="i>=3" (click)="showHideDetails(evt)" >...</span>
+							</div>
+						</ng-container>	
+				    </ng-template>
+				</agm-snazzy-info-window>
+			</agm-marker>
+		</agm-map>
+	</div>
+
+	<div class="footerBar">
+		<div class="col-md-3 col-sm-3 col-xs-3 icn_secc">
+			<img src="./assets/img/icon6.png">
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-3 pull-right">
+			<div id="main">
+				<span class="fa fa-bars" (click)="toggleSidebarMenu()" data-target="#mySidenav"></span>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3 col-sm-3 col-xs-3 menu_section">
+		<div id="mySidenav" class="sidenav" [ngClass]="sidebarMenu()">
+			<a href="javascript:void(0)" class="closebtn fa fa-close" (click)="closeNav()"></a>
+			<a href="#">About</a>
+			<a href="#">Services</a>
+			<a href="#">Clients</a>
+			<a href="#">Contact</a>
+		</div>
+	</div>
+</div>
+<!----main-Page-End----->
